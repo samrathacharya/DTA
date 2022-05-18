@@ -1,0 +1,12 @@
+<design:component label="Overcast Value Help Component">
+	<design:attribute
+        name="componentDefName"
+        label="Overcast Component Definition"
+        description="Overcast Component Definition"
+        datasource="apex://overcast.ComponentDefPicklist"
+    />
+    <design:attribute
+        name="recordId"
+        label="Source Record ID"
+    />
+</design:component>

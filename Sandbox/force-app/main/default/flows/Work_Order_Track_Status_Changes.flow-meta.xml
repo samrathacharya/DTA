@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if the work order has been closed</description>
+        <name>DEC_Is_Closed</name>
+        <label>Is Closed?</label>
+        <locationX>182</locationX>
+        <locationY>911</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Closed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_Status_History_Record</targetReference>
+            </connector>
+            <label>Closed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Checks to see if athere is an existing work order status history record</description>
+        <name>DEC_Record_Exists</name>
+        <label>Record Exists?</label>
+        <locationX>182</locationX>
+        <locationY>455</locationY>
+        <defaultConnector>
+            <targetReference>RC_Work_Order_Status_History_Record</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Last_Work_Order_Status_History_Record.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Last_Work_Order_Status_History_Record</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Tracks work order status changes</description>
+    <formulas>
+        <description>Calculates the status&apos; duration in minutes</description>
+        <name>FOR_Status_Duration</name>
+        <dataType>Number</dataType>
+        <expression>((NOW() - {!RVAR_Last_Work_Order_Status_History_Record.Status_Changed_Date__c})) * 1440</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Work Order: Track Status Changes {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Track Status Changes</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creat work order status history record</description>
+        <name>RC_Work_Order_Status_History_Record</name>
+        <label>Create Work Order Status History Record</label>
+        <locationX>182</locationX>
+        <locationY>791</locationY>
+        <assignRecordIdToReference>VAR_Work_Order_Status_History_Id</assignRecordIdToReference>
+        <connector>
+            <targetReference>DEC_Is_Closed</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Prior_Status__c</field>
+            <value>
+                <elementReference>$Record__Prior.Status</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status_Changed_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <elementReference>$Record.Status</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Work_Order__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Work_Order_Status_History__c</object>
+    </recordCreates>
+    <recordLookups>
+        <description>Get the last work order status history record</description>
+        <name>RVAR_Last_Work_Order_Status_History_Record</name>
+        <label>Get Last Work Order Status History Record</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Record_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Work_Order__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Work_Order_Status_History__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the kast work order status history record</description>
+        <name>RU_Last_Work_Order_Status_History_Record</name>
+        <label>Update Last Work Order Status History Record</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <connector>
+            <targetReference>RC_Work_Order_Status_History_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RVAR_Last_Work_Order_Status_History_Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status_Duration_Minutes__c</field>
+            <value>
+                <elementReference>FOR_Status_Duration</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Work_Order_Status_History__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Updates the newly created Work Order Status History record</description>
+        <name>RU_Work_Order_Status_History_Record</name>
+        <label>Update Work Order Status History Record</label>
+        <locationX>50</locationX>
+        <locationY>1031</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>VAR_Work_Order_Status_History_Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status_Duration_Minutes__c</field>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>Work_Order_Status_History__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RVAR_Last_Work_Order_Status_History_Record</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Logged</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Stores the Id of the newly created Work Order Status History record</description>
+        <name>VAR_Work_Order_Status_History_Id</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

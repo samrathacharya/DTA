@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Ship-to Selector</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:true,&quot;sections&quot;:[],&quot;operation&quot;:&quot;Query&quot;,&quot;navigationLabelType&quot;:&quot;&quot;,&quot;label&quot;:&quot;Ship-to Selector&quot;,&quot;isActive&quot;:true,&quot;autoRun&quot;:true}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2021-12-23T01:30:52.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:type="xsd:string">OvcS4BPFunctionSelectorPlugin</value>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">yvcuYR5BWXNVBkoteOJ9YrBYWcKuQjAo7O1P2cGowT6Xa28SEWYw2gYTlpTRmEa+y0kK2vsEdLak4lbf5KBhUI8Cb5lFrsCWaa4vWw+QOeddSWKsYylJUNCA7dLYi9uhfXWIEQEFS5n2MSdRRBnIkg==</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">ovcS4BPPartnerFunctions</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <decisions>
+        <name>DEC_Record_Type_Is_Changed</name>
+        <label>Record Type Is Changed</label>
+        <locationX>576</locationX>
+        <locationY>736</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Record_Type_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.RecordTypeId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Case_2</targetReference>
+            </connector>
+            <label>Record Type Changed</label>
+        </rules>
+    </decisions>
+    <description>Sets Case record type based on queue assignment</description>
+    <interviewLabel>Case: Case Record Type Assignment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case: Case Record Type Assignment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Fetch the Case Setting custom metadata type</description>
+        <name>RVAR_Case_Setting_Custom_Metadata_Type</name>
+        <label>Get Case Setting Custom Metadata Type</label>
+        <locationX>584</locationX>
+        <locationY>359</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>RVAR_Record_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Queue_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Owner:Group.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get default case record type associated with the case queue</description>
+        <name>RVAR_Record_Type</name>
+        <label>Get Record Type</label>
+        <locationX>584</locationX>
+        <locationY>479</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>RU_Case_1</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RVAR_Case_Setting_Custom_Metadata_Type.Default_Case_Record_Type__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update&apos;s the Case record type</description>
+        <name>RU_Case_1</name>
+        <label>Update Case</label>
+        <locationX>584</locationX>
+        <locationY>599</locationY>
+        <connector>
+            <targetReference>DEC_Record_Type_Is_Changed</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>RVAR_Record_Type.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update&apos;s the Case record type</description>
+        <name>RU_Case_2</name>
+        <label>Update Case</label>
+        <locationX>584</locationX>
+        <locationY>946</locationY>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>85</locationY>
+        <connector>
+            <targetReference>RVAR_Case_Setting_Custom_Metadata_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OwnerId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>00G</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Stores the assigned Case Record Type Id</description>
+        <name>VAR_Case_Record_Type_Id</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

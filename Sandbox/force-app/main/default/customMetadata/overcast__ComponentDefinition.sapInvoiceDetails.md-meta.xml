@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SAP Invoice Detail</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:true,&quot;showInNavigation&quot;:true,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;dynamic&quot;,&quot;label&quot;:&quot;$Label.overcast.ovcSAPInvoice&quot;,&quot;isActive&quot;:true,&quot;icon&quot;:&quot;&quot;,&quot;dynamicLabelOptions&quot;:{&quot;template&quot;:&quot;{0} {1}&quot;,&quot;parameters&quot;:[&quot;FIELD:WEBINVOICEDOCUMENT.BILL_TYPE_TEXT&quot;,&quot;TRIMFIELD:WEBINVOICEDOCUMENT.BILLINGDOC&quot;]},&quot;autoRun&quot;:true,&quot;actionButtons&quot;:[{&quot;name&quot;:&quot;btn2137394032&quot;,&quot;label&quot;:&quot;Create Return (ZRE)&quot;,&quot;action&quot;:{&quot;parameters&quot;:{&quot;BAPI_WEBINVOICE_GETDETAIL&quot;:{&quot;BILLINGDOC&quot;:&quot;FIELD:WEBINVOICEDOCUMENT.BILLINGDOC&quot;}},&quot;navType&quot;:&quot;COMPONENT&quot;,&quot;componentOptions&quot;:{&quot;detailComponentDef&quot;:&quot;ovcSAPInvoiceDetailsZRE&quot;,&quot;mode&quot;:&quot;Clone&quot;},&quot;componentDef&quot;:&quot;SAPSalesOrderCreateZOR&quot;,&quot;component&quot;:&quot;SalesOrderPoster&quot;}}]}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:type="xsd:string">7</value>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-01-27T05:51:51.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:type="xsd:string">14</value>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:type="xsd:string">sapInvoiceDetailPlugin</value>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">fNwgoMtO3TkqDS2PUd1uSg2OIMdcaWNWQZJqvfmcxk4nzQOHYU41asCXcaIVE6ZMAiRSh7pPrDsPwXqGAHEy3ZRjG9o8uhO8XvL7/pLs999L2TJ1CM+ycfc6ViabpGm0</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">sapInvoiceDetail</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

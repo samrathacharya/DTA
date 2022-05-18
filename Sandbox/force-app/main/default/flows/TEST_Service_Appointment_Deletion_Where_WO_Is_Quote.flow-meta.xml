@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if the related work order is a quotation</description>
+        <name>DEC_Is_Quotation</name>
+        <label>Is Quotation</label>
+        <locationX>168</locationX>
+        <locationY>449</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Quotation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.FSSK__FSK_Work_Order__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Quotation</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SchedStartTime</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SchedEndTime</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Service_Appointment</targetReference>
+            </connector>
+            <label>Quotation</label>
+        </rules>
+    </decisions>
+    <description>Delete unscheduled service appointment if related to a work order quote</description>
+    <interviewLabel>TEST: Service Appointment Deletion Where WO Is Quote {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Service Appointment Deletion Where WO Is Quote</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>Deletes the service appointment</description>
+        <name>RD_Service_Appointment</name>
+        <label>Delete Service Appointment</label>
+        <locationX>177</locationX>
+        <locationY>635</locationY>
+        <inputReference>$Record</inputReference>
+    </recordDeletes>
+    <start>
+        <locationX>76</locationX>
+        <locationY>50</locationY>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FSSK__FSK_Work_Order__c</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>0WO</stringValue>
+            </value>
+        </filters>
+        <object>ServiceAppointment</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>X0_Minutes_After_Creation</name>
+            <connector>
+                <targetReference>DEC_Is_Quotation</targetReference>
+            </connector>
+            <label>0 Minutes After Creation</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

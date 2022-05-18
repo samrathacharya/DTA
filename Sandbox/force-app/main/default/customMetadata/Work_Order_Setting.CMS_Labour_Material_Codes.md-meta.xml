@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>CMS - Labour Material Codes</label>
+    <protected>false</protected>
+    <values>
+        <field>Contractor_Community_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Currency_Code__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_3rd_Party_Repair_PBE_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Internal_Account_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Margin__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Pricebook_Entry_CMS__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Pricebook_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Quote_Template_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Default_Service_Report_Template_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Department__c</field>
+        <value xsi:type="xsd:string">Client Managed Services</value>
+    </values>
+    <values>
+        <field>Field_Technician_Profile_id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Field_Work_Order_Status__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Labour_Rate_Multiplier__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Labour_Rate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Location__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Reschedule_Reason__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Work_Type_Category__c</field>
+        <value xsi:type="xsd:string">Corrective Maintenance</value>
+    </values>
+    <values>
+        <field>Work_Type_Id_Labour_Material_Codes__c</field>
+        <value xsi:type="xsd:string">08q0l0000004MmbAAE</value>
+    </values>
+</CustomMetadata>

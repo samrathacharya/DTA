@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <interviewLabel>Work Order Line Item: Delete Related Records On Deletion {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order Line Item: Delete Related Records On Deletion</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>SF_Delete_UOM_Cache_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Product2Id</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>01t</stringValue>
+            </value>
+        </filters>
+        <object>WorkOrderLineItem</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>SF_Delete_UOM_Cache_Records</name>
+        <label>Delete UOM Cache Records</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <flowName>UOM_Cache_Delete_Records</flowName>
+        <inputAssignments>
+            <name>VAR_Work_Order_Line_Item_Id</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+</Flow>

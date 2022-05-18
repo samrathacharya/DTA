@@ -1,0 +1,8 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		
+        https://sfdclesson.com/2019/06/20/lightning-filecard-component/
+        
+	</aura:example>
+</aura:documentation>

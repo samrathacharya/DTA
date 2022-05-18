@@ -1,0 +1,10 @@
+<aura:component implements="lightning:availableForFlowScreens,force:hasRecordId" access="global">
+    <aura:attribute name="componentDefName" type="String" default="" description="Component definition name" access="global" />
+        <aura:attribute name="isDataReady" type="Boolean" default="false" description="Data ready to display" />
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <aura:if isTrue="{! v.isDataReady }">
+    	<overcast:ocfSelectionApplier recordId="{! v.recordId }" componentDefName="{! v.componentDefName }" />
+    </aura:if>
+    
+</aura:component>

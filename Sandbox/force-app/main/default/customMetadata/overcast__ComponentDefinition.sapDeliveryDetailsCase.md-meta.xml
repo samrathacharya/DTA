@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SAP Delivery Detail Case</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:true,&quot;showInNavigation&quot;:true,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;dynamic&quot;,&quot;label&quot;:&quot;$Label.overcast.ovcSAPDelivery&quot;,&quot;isActive&quot;:true,&quot;dynamicLabelOptions&quot;:{&quot;template&quot;:&quot;$Label.overcast.ovcSAPDeliveryNo&quot;,&quot;parameters&quot;:[&quot;TRIMFIELD:ET_DELIVERY_HEADER.VBELN&quot;]},&quot;autoRun&quot;:true,&quot;actionButtons&quot;:[]}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-01-28T07:23:09.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">7UgOuywyQUj6PQusu4Ob1Vm0TX/iE+gsk9ZDRs67banXSi/DhA/yqGRTK9Bq3Nn8qRMoKxWWCtJMCO2P4jFFR/YuyULaUoKvDBwNQQBLlvrpguP05nji0swTf+tu26sx</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">sapDelivery</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

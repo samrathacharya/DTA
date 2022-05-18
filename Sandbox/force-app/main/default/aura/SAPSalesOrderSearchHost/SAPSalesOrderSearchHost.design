@@ -1,0 +1,14 @@
+<design:component>
+	<design:attribute
+        name="componentDefName"
+        label="Overcast Component Definition"
+        description="Overcast Component Definition"
+        datasource="apex://overcast.ComponentDefPicklist"
+    />
+    <design:attribute
+        name="accordionLabel"
+        label="Label for accordion"
+        description="Label for accordion"
+        required = "true"
+    />
+</design:component>

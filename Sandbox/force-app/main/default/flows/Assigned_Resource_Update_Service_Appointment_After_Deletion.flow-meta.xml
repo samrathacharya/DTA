@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check o see if the service resource matches</description>
+        <name>DEC_Service_Resource_Match</name>
+        <label>Service Resource Match?</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ServiceResourceId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>RVAR_Service_Appointment.FSSK__FSK_Assigned_Service_Resource__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Service_Appointment.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Canceled</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Service_Appointment</targetReference>
+            </connector>
+            <label>Match</label>
+        </rules>
+    </decisions>
+    <description>Sets assigned resource on service appointment to NULL if an assigned resource record is deleted and their is a service resource match</description>
+    <interviewLabel>Assigned Resource: Update Service Appointment After Deletion {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Assigned Resource: Update Service Appointment After Deletion</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Gets the related service appointment</description>
+        <name>RVAR_Service_Appointment</name>
+        <label>Get Service Appointment</label>
+        <locationX>182</locationX>
+        <locationY>311</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Service_Resource_Match</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ServiceAppointmentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ServiceAppointment</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Sets assigned resource to NULL</description>
+        <name>RU_Service_Appointment</name>
+        <label>Update Service Appointment</label>
+        <locationX>50</locationX>
+        <locationY>551</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ServiceAppointmentId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Assigned_Resource_Email_Address__c</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Assigned_Resource_SMS_Email_Address__c</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FSSK__FSK_Assigned_Service_Resource__c</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <object>ServiceAppointment</object>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RVAR_Service_Appointment</targetReference>
+        </connector>
+        <object>AssignedResource</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

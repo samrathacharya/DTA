@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <name>DEC_Assign_To_Me</name>
+        <label>Assign To Me</label>
+        <locationX>644</locationX>
+        <locationY>815</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Assign_To_Me_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Assign_To_Me__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RVAR_Resource_Preference</targetReference>
+            </connector>
+            <label>Assign To Me</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Checks to see if the running user has permissions to create a resource preference</description>
+        <name>DEC_Has_Create_Resource_Preference_Permission</name>
+        <label>Has Create Resource Preference Permission</label>
+        <locationX>1048</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Has_Permission</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Create_Resource_Preference</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RVAR_Service_Resource</targetReference>
+            </connector>
+            <label>Has Permission</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if the running user has an active service resoource record</description>
+        <name>DEC_Is_Service_Resource</name>
+        <label>Is Service Resource</label>
+        <locationX>726</locationX>
+        <locationY>575</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Valid_Service_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Service_Resource.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Service_Resource.ResourceType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>T</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Service_Resource.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DEC_Scheduling_Parameters_Present</targetReference>
+            </connector>
+            <label>Valid Service Resource</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DEC_Resource_Preference_Exists</name>
+        <label>Resource Preference Exists?</label>
+        <locationX>446</locationX>
+        <locationY>1055</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_No_Resource_Preference</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Resource_Preference.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RC_Resource_Preference</targetReference>
+            </connector>
+            <label>No Resource Preference</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if scheduled start and end dates are present</description>
+        <name>DEC_Scheduling_Parameters_Present</name>
+        <label>Scheduling Parameters Present</label>
+        <locationX>347</locationX>
+        <locationY>695</locationY>
+        <defaultConnector>
+            <targetReference>DEC_Assign_To_Me</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Assign_To_Me_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SchedStartTime</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SchedEndTime</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Assign_To_Me__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RC_Assigned_Resource</targetReference>
+            </connector>
+            <label>Assign To Me</label>
+        </rules>
+    </decisions>
+    <description>Creates a resource preference or assigned resource record dependent upon inputs provided by a permitted user</description>
+    <interviewLabel>Service Appointment: Create Resource Preference / Assigned Resource {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Service Appointment: Create Resource Preference / Assigned Resource</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Create an assigned resource record</description>
+        <name>RC_Assigned_Resource</name>
+        <label>Create Assigned Resource</label>
+        <locationX>50</locationX>
+        <locationY>815</locationY>
+        <inputAssignments>
+            <field>ServiceAppointmentId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ServiceResourceId</field>
+            <value>
+                <elementReference>RVAR_Service_Resource.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>AssignedResource</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Creates resource preference record</description>
+        <name>RC_Resource_Preference</name>
+        <label>Create Resource Preference</label>
+        <locationX>314</locationX>
+        <locationY>1175</locationY>
+        <inputAssignments>
+            <field>PreferenceType</field>
+            <value>
+                <stringValue>Preferred</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RelatedRecordId</field>
+            <value>
+                <elementReference>$Record.ParentRecordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ServiceResourceId</field>
+            <value>
+                <elementReference>RVAR_Service_Resource.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ResourcePreference</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Check to see if a resource preference record already esists for this service resource</description>
+        <name>RVAR_Resource_Preference</name>
+        <label>Get Resource Preference</label>
+        <locationX>446</locationX>
+        <locationY>935</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Resource_Preference_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RelatedRecordId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ParentRecordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ServiceResourceId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RVAR_Service_Resource.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ResourcePreference</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the running user&apos;s related service resource record</description>
+        <name>RVAR_Service_Resource</name>
+        <label>Get Service Resource</label>
+        <locationX>726</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Is_Service_Resource</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RelatedRecordId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ServiceResource</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>922</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DEC_Has_Create_Resource_Preference_Permission</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Assign_To_Me__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>ServiceAppointment</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,28 @@
+<aura:component implements="lightning:availableForFlowScreens">
+    
+    <aura:attribute name="helpText" type="string" />
+    <aura:attribute name="label" type="string" />
+    <aura:attribute name="showAddressLookup" type="boolean" />
+    <aura:attribute name="street" type="string" />
+    <aura:attribute name="city" type="string" />
+    <aura:attribute name="state" type="string" />
+    <aura:attribute name="postcode" type="string" />
+    <aura:attribute name="country" type="string" />
+    <aura:attribute name="required" type="boolean" />
+    
+    <lightning:inputAddress fieldLevelHelp="{!v.helpText}"
+                            addressLabel="{!v.label}"
+                            showAddressLookup="{!v.showAddressLookup}"
+                            addressLookupPlaceholder="Address Search"
+                            street="{!v.street}"
+                            city="{!v.city}"
+                            province="{!v.state}"
+                            postalCode="{!v.postcode}"
+                            country="{!v.country}"
+                            streetLabel="Street"
+                            cityLabel="City"
+                            provinceLabel="State"
+                            postalCodeLabel="Postcode"
+                            countryLabel="Country" />
+                                               
+</aura:component>

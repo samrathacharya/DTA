@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ovcDeliveriesPerOrderList_6</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__ComponentDefinition__c</field>
+        <value xsi:type="xsd:string">ovcDeliveriesPerOrderList</value>
+    </values>
+    <values>
+        <field>overcast__Order__c</field>
+        <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>overcast__SectionDefinition__c</field>
+        <value xsi:type="xsd:string">{&quot;uniformFieldWidth&quot;:false,&quot;structureType&quot;:&quot;STRUCTURE&quot;,&quot;structureName&quot;:&quot;IS_DLV_DATA_CONTROL&quot;,&quot;sectionType&quot;:&quot;ACCORDION&quot;,&quot;parameterName&quot;:&quot;IS_DLV_DATA_CONTROL&quot;,&quot;label&quot;:&quot;Selection Criteria for Selecting Deliveries&quot;,&quot;isEditable&quot;:false,&quot;fields&quot;:[{&quot;name&quot;:&quot;BYPASSING_BUFFER&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Bypass buffer&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;HEAD_STATUS&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;HEAD_PARTNER&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ITEM&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ITEM_STATUS&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;DOC_FLOW&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;FT_DATA&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;HU_DATA&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;SERNO&quot;,&quot;length&quot;:1,&quot;label&quot;:&quot;Checkbox&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;}],&quot;display&quot;:false}</value>
+    </values>
+    <values>
+        <field>overcast__StructureName__c</field>
+        <value xsi:type="xsd:string">IS_DLV_DATA_CONTROL</value>
+    </values>
+</CustomMetadata>

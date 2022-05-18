@@ -1,0 +1,66 @@
+<!--
+ - Created by cxu on 7/02/2017.
+ -->
+
+<aura:component description="OpportunityLineItems"
+                controller="FastOpportunityController">
+    <aura:attribute name="recordId" type="string"></aura:attribute>
+    <aura:attribute name="items" type="OpportunityLineItem[]"></aura:attribute>
+    <aura:attribute name="entries" type="PricebookEntry[]"></aura:attribute>
+    <aura:attribute name="hasEditMode" type="boolean"></aura:attribute>
+    <aura:attribute name="renderWidth" type="String"></aura:attribute>
+    
+    <aura:handler event="c:RemoveLineItem" action="{!c.handleItemRemoval}"/>
+
+    <aura:if isTrue="{!equals(v.items.length, 0)}">
+        <ol class="slds-list--vertical slds-list--vertical-space">
+            <li class="slds-item slds-hint-parent">
+                <div class="slds-filters__item slds-grid slds-grid--vertical-align-center">
+                    <p>No product has been added yet.</p>
+                </div>
+            </li>
+        </ol>
+    </aura:if>
+    
+    <aura:if isTrue="{!equals(v.renderWidth, 'SMALL')}">
+        <ul class="slds-has-dividers_around-space">
+        <aura:iteration items="{!v.items}" var="item">
+            <li class="slds-var-p-horizontal_medium slds-var-p-vertical_xx-small forceImageRelatedListStencil slds-item">                    
+                <c:OpportunityLineItem item="{!item}" entries="{!v.entries}" hasEditMode="{!v.hasEditMode}" renderWidth="{!v.renderWidth}" ></c:OpportunityLineItem>
+            </li>
+        </aura:iteration>
+        </ul>
+    </aura:if>
+    <aura:if isTrue="{!equals(v.renderWidth, 'MEDIUM')}">
+		<table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+          <thead>
+            <tr class="slds-text-heading_label">
+              <th scope="col"><div class="slds-truncate" title="Product Name">Product Name</div></th>
+              <th scope="col"><div class="slds-truncate" title="Quantity">Quantity</div></th>
+              <th scope="col"><div class="slds-truncate" title="Unit of Measure">UOM</div></th>
+              <th scope="col"><div class="slds-truncate" title="Sales Price">Sales Price</div></th>
+              <th scope="col"><div class="slds-truncate" title="Total Price">Total Price</div></th>
+              <th scope="col"><div class="slds-truncate" title="Availability">Availability</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Use the Apex model and controller to fetch server side data -->
+            <aura:iteration items="{!v.items}" var="item">
+                <tr>
+                    <td><div class="slds-truncate" title="{!item.Name}">{!item.PricebookEntry.Product2.Name}</div></td>
+                    <td><div class="slds-truncate" title="{!item.Quantity}">{!item.Quantity}</div></td>
+                    <td><div class="slds-truncate" title="{!item.UOM__c}">{!item.UOM__c}</div></td>
+                    <td><div class="slds-truncate" title="{!item.UnitPrice}">{!item.UnitPrice}</div></td>
+                    <td><div class="slds-truncate" title="{!item.TotalPrice__c}">{!item.TotalPrice__c}</div></td>
+                    <td><div class="slds-truncate" title="{!item.Availability__c}">
+                        <span class ="slds-avatar slds-avatar_circle slds-avatar--x-small">  
+                            <img  class = "height" src="{!item.Availability_Status__c}"/></span></div>
+                        </td>
+                </tr>
+            </aura:iteration>
+          </tbody>
+        </table>
+    </aura:if>
+
+    <lightning:spinner aura:id="mySpinner" class="slds-hide"/>
+</aura:component>

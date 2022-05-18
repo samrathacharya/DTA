@@ -1,0 +1,11 @@
+<design:component>
+    <design:attribute name="helpText" label="Help Text" />
+	<design:attribute name="label" label="Label" />
+    <design:attribute name="showAddressLookup" label="Enable Address Search" />
+    <design:attribute name="street" label="Street Value" />
+    <design:attribute name="city" label="City Value" />
+    <design:attribute name="state" label="State Value" />
+    <design:attribute name="postcode" label="Postcode Value" />
+    <design:attribute name="country" label="Country Value" />	
+    <design:attribute name="required" label="Required" />
+</design:component>

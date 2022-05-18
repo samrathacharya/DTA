@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <description>Assign record variables to a collection</description>
+        <name>ASS_Records_To_Collection</name>
+        <label>Assign Records To Collection</label>
+        <locationX>264</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>CVAR_Content_Document_Link_New</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>RVAR_Content_Document_Link_New</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign variables to the record variable</description>
+        <name>ASS_Variables</name>
+        <label>Assign Variables</label>
+        <locationX>264</locationX>
+        <locationY>575</locationY>
+        <assignmentItems>
+            <assignToReference>RVAR_Content_Document_Link_New.ContentDocumentId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.ContentDocumentId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Content_Document_Link_New.LinkedEntityId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Content_Document_Link_New.ShareType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.ShareType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Content_Document_Link_New.Visibility</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.Visibility</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ASS_Records_To_Collection</targetReference>
+        </connector>
+    </assignments>
+    <description>Copies files attached to a case to the related work order on work order creation</description>
+    <interviewLabel>Work Order: Copy Files From Case {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Copy Files From Case</label>
+    <loops>
+        <description>Loop through the collection of content document link records</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>176</locationX>
+        <locationY>455</locationY>
+        <collectionReference>CVAR_Content_Document_Link</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ASS_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>RC_Content_Document_Link_Records</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Create Content Document Link records from the records in the collection</description>
+        <name>RC_Content_Document_Link_Records</name>
+        <label>Create Content Document Link Records</label>
+        <locationX>176</locationX>
+        <locationY>911</locationY>
+        <inputReference>CVAR_Content_Document_Link_New</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <description>Get Content Document Link records of files attached to the related Case and place in a collection</description>
+        <name>CVAR_Content_Document_Link</name>
+        <label>Get Content Document Link</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>LinkedEntityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.CaseId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ContentDocumentLink</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CVAR_Content_Document_Link</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CaseId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>500</stringValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>CVAR_Content_Document_Link_New</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>ContentDocumentLink</objectType>
+    </variables>
+    <variables>
+        <name>RVAR_Content_Document_Link_New</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>ContentDocumentLink</objectType>
+    </variables>
+</Flow>

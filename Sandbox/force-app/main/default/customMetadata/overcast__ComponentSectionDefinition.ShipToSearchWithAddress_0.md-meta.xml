@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ShipToSearchWithAddress_0</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__ComponentDefinition__c</field>
+        <value xsi:type="xsd:string">ShipToSearchWithAddress</value>
+    </values>
+    <values>
+        <field>overcast__Order__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
+        <field>overcast__SectionDefinition__c</field>
+        <value xsi:type="xsd:string">{&quot;structureType&quot;:&quot;STRUCTURE&quot;,&quot;sectionType&quot;:&quot;FILTER&quot;,&quot;parameterName&quot;:&quot;ovcParameters&quot;,&quot;label&quot;:&quot;&quot;,&quot;isEditable&quot;:true,&quot;filterVariant&quot;:&quot;&quot;,&quot;fields&quot;:[{&quot;name&quot;:&quot;ovcPartnerRole&quot;,&quot;length&quot;:2,&quot;label&quot;:&quot;ovcPartnerRole&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcAddressSearch&quot;,&quot;length&quot;:255,&quot;label&quot;:&quot;Search&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;required&quot;:&quot;true&quot;,&quot;disabled&quot;:&quot;false&quot;}},&quot;display&quot;:true,&quot;direction&quot;:&quot;INPUT&quot;,&quot;detailDisplay&quot;:false,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcInitializeSearch&quot;,&quot;length&quot;:100,&quot;label&quot;:&quot;ovcInitializeSearch&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcRelatedValue&quot;,&quot;length&quot;:12,&quot;label&quot;:&quot;ovcRelatedValue&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcSalesOrg&quot;,&quot;length&quot;:4,&quot;label&quot;:&quot;ovcSalesOrg&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;INPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcDistChannel&quot;,&quot;length&quot;:2,&quot;label&quot;:&quot;ovcDistChannel&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcDivision&quot;,&quot;length&quot;:2,&quot;label&quot;:&quot;ovcDivision&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ovcSalesAreaKey&quot;,&quot;length&quot;:40,&quot;label&quot;:&quot;ovcSalesAreaKey&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;}],&quot;display&quot;:true,&quot;direction&quot;:&quot;INPUT&quot;}</value>
+    </values>
+    <values>
+        <field>overcast__StructureName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

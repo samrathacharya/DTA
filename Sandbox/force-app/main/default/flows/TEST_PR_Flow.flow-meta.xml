@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <decisions>
+        <description>Check if the product request is related to a work order</description>
+        <name>DEC_Has_Work_Order</name>
+        <label>Has Work Order?</label>
+        <locationX>828</locationX>
+        <locationY>376</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Has_Work_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.WorkOrderId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0WO</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DEC_Status_Check</targetReference>
+            </connector>
+            <label>Has Work Order</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if any other open product requests are related to the work order</description>
+        <name>DEC_Other_Product_Request_Records_Exist</name>
+        <label>Other Product Request Records Exist?</label>
+        <locationX>835</locationX>
+        <locationY>1012</locationY>
+        <defaultConnector>
+            <targetReference>RU_Work_Order_3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Parts_Required_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Product_Requests.Id</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0TS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Product_Requests.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Submitted</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_1</targetReference>
+            </connector>
+            <label>Parts Required</label>
+        </rules>
+        <rules>
+            <name>OUT_Awaiting_Parts</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Id</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0TS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Product_Requests.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_2</targetReference>
+            </connector>
+            <label>Awaiting Parts</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check record&apos;s status</description>
+        <name>DEC_Status_Check</name>
+        <label>Status Check</label>
+        <locationX>828</locationX>
+        <locationY>571</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Submitted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Submitted</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_1</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Submitted</label>
+        </rules>
+        <rules>
+            <name>OUT_In_Progress</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_2</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>In Progress</label>
+        </rules>
+        <rules>
+            <name>OUT_Other</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Received</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Draft</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RVAR_Product_Requests</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Other</label>
+        </rules>
+    </decisions>
+    <interviewLabel>TEST: PR Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: PR Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get any open product requests related to the work order</description>
+        <name>RVAR_Product_Requests</name>
+        <label>Get Product Requests</label>
+        <locationX>1034</locationX>
+        <locationY>746</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Other_Product_Request_Records_Exist</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>WorkOrderId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.WorkOrderId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>In Progress</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Submitted</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProductRequest</object>
+        <sortField>LastModifiedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update the parent work order</description>
+        <name>RU_Work_Order_1</name>
+        <label>Update Work Order</label>
+        <locationX>654</locationX>
+        <locationY>745</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.WorkOrderId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue>Parts Required</stringValue>
+            </value>
+        </inputAssignments>
+        <object>WorkOrder</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the parent work order</description>
+        <name>RU_Work_Order_2</name>
+        <label>Update Work Order</label>
+        <locationX>841</locationX>
+        <locationY>739</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.WorkOrderId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue>Awaiting Parts</stringValue>
+            </value>
+        </inputAssignments>
+        <object>WorkOrder</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the parent work order</description>
+        <name>RU_Work_Order_3</name>
+        <label>Update Work Order</label>
+        <locationX>847</locationX>
+        <locationY>1250</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.WorkOrderId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <object>WorkOrder</object>
+    </recordUpdates>
+    <start>
+        <locationX>711</locationX>
+        <locationY>52</locationY>
+        <connector>
+            <targetReference>DEC_Has_Work_Order</targetReference>
+        </connector>
+        <object>ProductRequest</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

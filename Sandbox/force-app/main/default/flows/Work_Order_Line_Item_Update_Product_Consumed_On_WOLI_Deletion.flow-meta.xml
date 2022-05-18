@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <name>DEC_Record_Found</name>
+        <label>Record Found?</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Record_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Product_Consumed.Id</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0Gv</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Product_Consumed</targetReference>
+            </connector>
+            <label>Record Found</label>
+        </rules>
+    </decisions>
+    <description>Updates related product consumed record if work order line item is deleted</description>
+    <interviewLabel>Work Order Line Item: Update Product Consumed On WOLI Deletion {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order Line Item: Update Product Consumed On WOLI Deletion</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>Delete the related product consumed record</description>
+        <name>RD_Product_Consumed</name>
+        <label>Delete Product Consumed</label>
+        <locationX>50</locationX>
+        <locationY>551</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Product_Consumed.Id</elementReference>
+            </value>
+        </filters>
+        <object>ProductConsumed</object>
+    </recordDeletes>
+    <recordLookups>
+        <name>Get_Product_Consumed</name>
+        <label>Get Product Consumed</label>
+        <locationX>182</locationX>
+        <locationY>311</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Record_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Product_Consumed_Id__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProductConsumed</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Product_Consumed</targetReference>
+        </connector>
+        <object>WorkOrderLineItem</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

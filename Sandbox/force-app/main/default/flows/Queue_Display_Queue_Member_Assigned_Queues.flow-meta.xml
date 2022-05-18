@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>Assign values to the queue variables</description>
+        <name>ASS_Queue_Names</name>
+        <label>Assign Queue Names</label>
+        <locationX>642</locationX>
+        <locationY>661</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Queue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FOR_Remove_Queue_Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>VAR_Queue_2</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FOR_Remove_Left_Value_From_Queue_Variable</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>VAR_Queue_2</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CON_Line_Break</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>DEC_Queue_Variable_Contains_Semi_Colon</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign value to queue variable</description>
+        <name>ASS_Queue_Names_2</name>
+        <label>Assign Queue Names</label>
+        <locationX>469</locationX>
+        <locationY>858</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Queue_2</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FOR_Remove_Last_Value</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SC_Queue_Assignment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns values to variable</description>
+        <name>ASS_Variables</name>
+        <label>Assign Variables</label>
+        <locationX>845</locationX>
+        <locationY>522</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Queue</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>RVAR_Group.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>VAR_Queue</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CON_Semi_Colon</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <description>Used to insert a line break in display text</description>
+        <name>CON_Line_Break</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;br&gt;</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <description>Provides a record delimiter</description>
+        <name>CON_Semi_Colon</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>;</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>Determine if the group record is a queue</description>
+        <name>DEC_Queue</name>
+        <label>Queue?</label>
+        <locationX>1042</locationX>
+        <locationY>391</locationY>
+        <defaultConnector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not A Queue</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Queue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Group.Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Queue</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Variables</targetReference>
+            </connector>
+            <label>Queue</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Determine if the variable contains a &quot;;&quot;</description>
+        <name>DEC_Queue_Variable_Contains_Semi_Colon</name>
+        <label>Queue Variable Contains Semi Colon</label>
+        <locationX>459</locationX>
+        <locationY>662</locationY>
+        <defaultConnector>
+            <targetReference>ASS_Queue_Names_2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>VAR_Queue</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>;</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Queue_Names</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Displays the queues that the running user is a member of</description>
+    <formulas>
+        <description>Removes the last value from the variable</description>
+        <name>FOR_Remove_Last_Value</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!VAR_Queue}, 255)</expression>
+    </formulas>
+    <formulas>
+        <description>Removes the leftmost value from the queue variable</description>
+        <name>FOR_Remove_Left_Value_From_Queue_Variable</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!VAR_Queue}, FIND(&apos;;&apos;, {!VAR_Queue}) - 1)</expression>
+    </formulas>
+    <formulas>
+        <description>Removes values to the right of the semi-colon</description>
+        <name>FOR_Remove_Queue_Name</name>
+        <dataType>String</dataType>
+        <expression>TRIM((RIGHT({!VAR_Queue}, LEN({!VAR_Queue}) - FIND(&apos;;&apos;, {!VAR_Queue}))))</expression>
+    </formulas>
+    <interviewLabel>Queue: Display Queue Members {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Queue: Display Queue Member Assigned Queues</label>
+    <loops>
+        <description>Loops through the collection of group member records</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>466</locationX>
+        <locationY>390</locationY>
+        <collectionReference>CVAR_Group_Members</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>RVAR_Group</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>DEC_Queue_Variable_Contains_Semi_Colon</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Get all groups (queues) that the running user is a member of</description>
+        <name>CVAR_Group_Members</name>
+        <label>Get Group Members</label>
+        <locationX>467</locationX>
+        <locationY>263</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>UserOrGroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>GroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Gets the current group record</description>
+        <name>RVAR_Group</name>
+        <label>Get Group</label>
+        <locationX>841</locationX>
+        <locationY>378</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Queue</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.GroupId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Queue</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <description>Displays user&apos;s current queue assignments</description>
+        <name>SC_Queue_Assignment</name>
+        <label>Queue Assignment</label>
+        <locationX>469</locationX>
+        <locationY>993</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>DT_Screen_Title</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;My Current Queue Assignments&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>DT_Queue</name>
+            <fieldText>&lt;p&gt;{!VAR_Queue_2}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>341</locationX>
+        <locationY>128</locationY>
+        <connector>
+            <targetReference>CVAR_Group_Members</targetReference>
+        </connector>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <name>VAR_Queue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>VAR_Queue_2</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

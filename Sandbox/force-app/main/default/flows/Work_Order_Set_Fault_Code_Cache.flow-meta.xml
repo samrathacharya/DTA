@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <name>ASS_Record_Count</name>
+        <label>Assign Record Count</label>
+        <locationX>270</locationX>
+        <locationY>935</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Record_Count</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign record variables to collection</description>
+        <name>ASS_Records_To_Collection</name>
+        <label>Assign Records To Collection</label>
+        <locationX>270</locationX>
+        <locationY>1967</locationY>
+        <assignmentItems>
+            <assignToReference>CVAR_Temporary_Fault_Codes</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>RVAR_Temporary_Fault_Code</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Fault_Code_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign temporary fault code variables to record variable</description>
+        <name>ASS_Temporary_Fault_Code_Variables</name>
+        <label>Assign Temporary Fault Code Variables</label>
+        <locationX>270</locationX>
+        <locationY>1847</locationY>
+        <assignmentItems>
+            <assignToReference>RVAR_Temporary_Fault_Code.Fault_Code_id__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Fault_Code_Collection.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Temporary_Fault_Code.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Fault_Code_Collection.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Temporary_Fault_Code.Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Fault</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Temporary_Fault_Code.Work_Order_Id__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ASS_Records_To_Collection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Check to see if there is a division match between fault code and asset product on work order</description>
+        <name>DEC_Division_Match</name>
+        <label>Division Match</label>
+        <locationX>402</locationX>
+        <locationY>1727</locationY>
+        <defaultConnector>
+            <targetReference>LOOP_Through_Fault_Code_Collection</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Match</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LOOP_Through_Fault_Code_Collection.Division__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>$Record.Asset.Product2.Division__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Temporary_Fault_Code_Variables</targetReference>
+            </connector>
+            <label>Match</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DEC_Has_Asset</name>
+        <label>Has Asset</label>
+        <locationX>600</locationX>
+        <locationY>575</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Has_Asset</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AssetId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>02i</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CVAR_Temporary_Fault_Cause_Codes_2</targetReference>
+            </connector>
+            <label>Has Asset</label>
+        </rules>
+        <rules>
+            <name>OUT_No_Asset_Or_IsClosed</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AssetId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CVAR_Temporary_Fault_Cause_Codes_1</targetReference>
+            </connector>
+            <label>No Asset Or IsClosed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if the record type = Quotation</description>
+        <name>DEC_Quote</name>
+        <label>Quote?</label>
+        <locationX>1243</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Not_a_Quote</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Quotation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DEC_Work_Type</targetReference>
+            </connector>
+            <label>Not a Quote</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DEC_Work_Type</name>
+        <label>Work Type</label>
+        <locationX>941</locationX>
+        <locationY>455</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Include</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.WorkType.Enable_Fault_Cause_Codes__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DEC_Has_Asset</targetReference>
+            </connector>
+            <label>Include</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if there are any records to delete</description>
+        <name>OUT_Records_Exist_1</name>
+        <label>Records Exist</label>
+        <locationX>182</locationX>
+        <locationY>1151</locationY>
+        <defaultConnector>
+            <targetReference>CVAR_Fault_Code</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Delete_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>VAR_Record_Count</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Temporary_Fault_Cause_Codes_2</targetReference>
+            </connector>
+            <label>Delete</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if there are any records to delete</description>
+        <name>OUT_Records_Exist_1_0</name>
+        <label>Records Exist</label>
+        <locationX>622</locationX>
+        <locationY>815</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Delete_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CVAR_Temporary_Fault_Cause_Codes_1</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Temporary_Fault_Cause_Codes_1</targetReference>
+            </connector>
+            <label>Delete</label>
+        </rules>
+    </decisions>
+    <description>Sets temporary fault codes to be used by the FSL mobile app</description>
+    <interviewLabel>Work Order: Set Fault Code Cache {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Set Fault Code Cache</label>
+    <loops>
+        <description>Loop through the collection to get the record count</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>182</locationX>
+        <locationY>815</locationY>
+        <collectionReference>CVAR_Temporary_Fault_Cause_Codes_2</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ASS_Record_Count</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>OUT_Records_Exist_1</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <description>Loop through the collection of fault code records</description>
+        <name>LOOP_Through_Fault_Code_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>182</locationX>
+        <locationY>1607</locationY>
+        <collectionReference>CVAR_Fault_Code</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>DEC_Division_Match</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>RC_Temporary_Fault_Code_Records</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>RC_Temporary_Fault_Code_Records</name>
+        <label>Create Temporary Fault Code Records</label>
+        <locationX>182</locationX>
+        <locationY>2279</locationY>
+        <inputReference>CVAR_Temporary_Fault_Codes</inputReference>
+    </recordCreates>
+    <recordDeletes>
+        <description>Delete temporary fault and cause records related to the work order</description>
+        <name>RD_Temporary_Fault_Cause_Codes_1</name>
+        <label>Delete Temporary Fault Cause Codes</label>
+        <locationX>490</locationX>
+        <locationY>935</locationY>
+        <inputReference>CVAR_Temporary_Fault_Cause_Codes_1</inputReference>
+    </recordDeletes>
+    <recordDeletes>
+        <description>Delete temporary fault and cause records related to the work order</description>
+        <name>RD_Temporary_Fault_Cause_Codes_2</name>
+        <label>Delete Temporary Fault Cause Codes</label>
+        <locationX>50</locationX>
+        <locationY>1271</locationY>
+        <connector>
+            <targetReference>CVAR_Fault_Code</targetReference>
+        </connector>
+        <inputReference>CVAR_Temporary_Fault_Cause_Codes_2</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <description>Get fault code records and place in a collection</description>
+        <name>CVAR_Fault_Code</name>
+        <label>Get Fault Code</label>
+        <locationX>182</locationX>
+        <locationY>1487</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Fault_Code_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Fault_Code__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>CVAR_Temporary_Fault_Cause_Codes_1</name>
+        <label>Get Temporary Fault Cause Codes</label>
+        <locationX>622</locationX>
+        <locationY>695</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>OUT_Records_Exist_1_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Work_Order_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Temporary_Fault_And_Cause_Code__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>CVAR_Temporary_Fault_Cause_Codes_2</name>
+        <label>Get Temporary Fault Cause Codes</label>
+        <locationX>182</locationX>
+        <locationY>695</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Work_Order_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Temporary_Fault_And_Cause_Code__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>1117</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DEC_Quote</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Accepted By Tech</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Technician On Site</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Allocated To Tech</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsClosed</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Stores collection of temporary fault code records</description>
+        <name>CVAR_Temporary_Fault_Codes</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Temporary_Fault_And_Cause_Code__c</objectType>
+    </variables>
+    <variables>
+        <name>RVAR_Temporary_Fault_Code</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Temporary_Fault_And_Cause_Code__c</objectType>
+    </variables>
+    <variables>
+        <name>VAR_Record_Count</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,6 @@
+<design:component label="SAP Invoice Detail MT" >
+<design:supportedFormFactors>
+<design:supportedFormFactor type="Large" />
+<design:supportedFormFactor type="Small" />
+</design:supportedFormFactors>
+</design:component>

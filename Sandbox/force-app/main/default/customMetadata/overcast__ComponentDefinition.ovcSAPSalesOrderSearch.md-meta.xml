@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SAP Sales Order Search</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:false,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;&quot;,&quot;label&quot;:&quot;SAP Sales Order Search&quot;,&quot;isActive&quot;:true,&quot;componentOptions&quot;:{&quot;filterBehavior&quot;:&quot;fixed&quot;},&quot;bypassScenarioCache&quot;:false,&quot;autoRun&quot;:false,&quot;actionButtons&quot;:[]}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-02-10T00:07:59.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:type="xsd:string">OvcSAPSalesOrderSearchPlugin</value>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">nLYmejSkJKhPNWt5EVwfS3rNd2j0BS9pNXl2PPXv4GzgAc8kcqjNGi1jx+rOH0zH8Bm0mV9A3atteSDEFdtJw0EPZmeUGkdEveHx0/KBFZempQ9q5NtpJMk7/+AADtkJ</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">SalesOrderDetailHeader</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

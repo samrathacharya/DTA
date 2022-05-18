@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <name>DEC_Is_New</name>
+        <label>Is New</label>
+        <locationX>166</locationX>
+        <locationY>312</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Has_Asset</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AssetId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>02i</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Has Asset</label>
+        </rules>
+    </decisions>
+    <interviewLabel>Work Order: Set Asset Product {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Set Asset Product</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>RU_Work_Order</name>
+        <label>Update Work Order</label>
+        <locationX>192</locationX>
+        <locationY>471</locationY>
+        <inputAssignments>
+            <field>Asset_Product__c</field>
+            <value>
+                <elementReference>$Record.Asset.Product2Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Division__c</field>
+            <value>
+                <elementReference>$Record.Asset.Product2.Division__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>DEC_Is_New</targetReference>
+        </connector>
+        <filterLogic>1 OR (1 AND 2)</filterLogic>
+        <filters>
+            <field>AssetId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>02i</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AssetId</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

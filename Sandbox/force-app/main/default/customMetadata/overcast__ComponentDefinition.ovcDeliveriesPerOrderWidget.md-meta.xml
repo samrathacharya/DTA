@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SAP Deliveries per Order Widget</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:true,&quot;showInNavigation&quot;:false,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;&quot;,&quot;masterActionLink&quot;:{&quot;name&quot;:&quot;btn139375728&quot;,&quot;label&quot;:&quot;$Label.overcast.ovcViewAll&quot;,&quot;action&quot;:{&quot;componentDef&quot;:&quot;ovcDeliveriesPerOrderList&quot;,&quot;component&quot;:&quot;ListViewer&quot;}},&quot;label&quot;:&quot;$Label.overcast.ovcDeliveriesStatic&quot;,&quot;isActive&quot;:true,&quot;dynamicLabelOptions&quot;:{&quot;template&quot;:&quot;$Label.overcast.ovcDeliveries&quot;,&quot;parameters&quot;:[&quot;COUNT:ET_DELIVERY_HEADER&quot;]},&quot;autoRun&quot;:true}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:type="xsd:string">20062</value>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-01-27T05:44:06.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:type="xsd:string">40120</value>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:type="xsd:string">OvcSAPDeliveriesPerOrderPlugin</value>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">VHlM56Za2GybkPT/IK/0L42YJKdntkl8+Zh40Imu46x9wsZd0fofYBARHJedxnEj9DZ+Ck2d1SIudl/cK5YcLC3OrSSGpvO4IV4hdBk+l/NKuJmJXra4TuvHHXErYbBqGvZ1QnCB2ttRGsiZbvGrLw==</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">sapDelivery</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

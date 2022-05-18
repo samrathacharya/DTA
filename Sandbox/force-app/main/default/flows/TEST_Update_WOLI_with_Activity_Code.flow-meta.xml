@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if the record has anactivity code</description>
+        <name>DEC_Activity_Code_Not_Present</name>
+        <label>Activity Code Not Present</label>
+        <locationX>173</locationX>
+        <locationY>345</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Activity_Code_Not_Present</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Activity_Code__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RVAR_Service_Resource</targetReference>
+            </connector>
+            <label>Activity Code Not Present</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check to see if the record has anactivity code</description>
+        <name>DEC_Is_Service_Resource</name>
+        <label>Is Service Resource</label>
+        <locationX>176</locationX>
+        <locationY>680</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Service_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Service_Resource.Id</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0Hn</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_Line_Items</targetReference>
+            </connector>
+            <label>Service Resource</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <description>Derive the activity code from the service resource default activity code</description>
+        <name>FOR_Activity_Code</name>
+        <dataType>String</dataType>
+        <expression>LEFT(TEXT({!RVAR_Service_Resource.Default_Activity_Code__c}), 6)</expression>
+    </formulas>
+    <interviewLabel>TEST: Update WOLI with Activity Code {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Update WOLI with Activity Code</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get the service resource record</description>
+        <name>RVAR_Service_Resource</name>
+        <label>Get Service Resource</label>
+        <locationX>183</locationX>
+        <locationY>553</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Is_Service_Resource</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>RelatedRecordId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ResourceType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>T</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Default_Activity_Code__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ServiceResource</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates work order line item records from collection</description>
+        <name>RU_Work_Order_Line_Items</name>
+        <label>Update Work Order Line Items</label>
+        <locationX>185</locationX>
+        <locationY>877</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Activity_Code__c</field>
+            <value>
+                <elementReference>FOR_Activity_Code</elementReference>
+            </value>
+        </inputAssignments>
+        <object>WorkOrderLineItem</object>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>DEC_Activity_Code_Not_Present</targetReference>
+        </connector>
+        <object>WorkOrderLineItem</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <description>Collection of work order line item records to update</description>
+        <name>CVAR_Work_Order_Line_Item_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <description>Record variable for work order line item</description>
+        <name>RVAR_Work_Order_Line_Item_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+</Flow>

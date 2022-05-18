@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <description>Assign blanket PO record id</description>
+        <name>ASS_Blanket_PO_Id_1</name>
+        <label>Assign Blanket PO Id</label>
+        <locationX>50</locationX>
+        <locationY>638</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Blanket_PO_Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Blanket_PO_CM.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RU_Work_Order</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign blanket PO record id</description>
+        <name>ASS_Blanket_PO_Id_2</name>
+        <label>Assign Blanket PO Id</label>
+        <locationX>578</locationX>
+        <locationY>638</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Blanket_PO_Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Blanket_PO_PM.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RU_Work_Order</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Determine if a valid record has been found</description>
+        <name>DEC_Valid_Blanket_PO_1</name>
+        <label>Valid Blanket PO</label>
+        <locationX>182</locationX>
+        <locationY>518</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Valid_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Blanket_PO_CM.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Blanket_PO_Id_1</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Determine if a valid record has been found</description>
+        <name>DEC_Valid_Blanket_PO_2</name>
+        <label>Valid Blanket PO</label>
+        <locationX>710</locationX>
+        <locationY>518</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Valid_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Blanket_PO_PM.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Blanket_PO_Id_2</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check for work type</description>
+        <name>DEC_Work_Type</name>
+        <label>Work Type</label>
+        <locationX>644</locationX>
+        <locationY>278</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Corrective_Maintenance</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Work_Order.WorkType.Name</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>Corrective Maintenance</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Blanket_PO_CM</targetReference>
+            </connector>
+            <label>Corrective Maintenance</label>
+        </rules>
+        <rules>
+            <name>OUT_Preventative_Maintenance</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Work_Order.WorkType.Name</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>Preventative Maintenance</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Blanket_PO_PM</targetReference>
+            </connector>
+            <label>Preventative Maintenance</label>
+        </rules>
+    </decisions>
+    <interviewLabel>TEST: Get BPO 2 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Get BPO 2</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get the most current &amp; valid blanket PO record</description>
+        <name>Get_Blanket_PO_CM</name>
+        <label>Get Blanket PO</label>
+        <locationX>182</locationX>
+        <locationY>398</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Valid_Blanket_PO_1</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND (3 OR 4)</filterLogic>
+        <filters>
+            <field>Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RVAR_Work_Order.AccountId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Applicable_Work_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corrective Maintenance</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Applicable_Work_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corrective Maintenance;Preventative Maintenance</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Blanket_Purchase_Order__c</object>
+        <sortField>End_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the most current &amp; valid blanket PO record</description>
+        <name>Get_Blanket_PO_PM</name>
+        <label>Get Blanket PO</label>
+        <locationX>710</locationX>
+        <locationY>398</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Valid_Blanket_PO_2</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>RVAR_Work_Order.AccountId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Active__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Applicable_Work_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Preventative Maintenance</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Blanket_Purchase_Order__c</object>
+        <sortField>End_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the current work order</description>
+        <name>RVAR_Work_Order</name>
+        <label>Get Work Order</label>
+        <locationX>644</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Work_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>WorkOrder</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update work order with balnket PO record Id</description>
+        <name>RU_Work_Order</name>
+        <label>Update Work Order</label>
+        <locationX>644</locationX>
+        <locationY>950</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Blanket_Purchase_Order__c</field>
+            <value>
+                <elementReference>VAR_Blanket_PO_Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>WorkOrder</object>
+    </recordUpdates>
+    <start>
+        <locationX>518</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RVAR_Work_Order</targetReference>
+        </connector>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>VAR_Blanket_PO_Id</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

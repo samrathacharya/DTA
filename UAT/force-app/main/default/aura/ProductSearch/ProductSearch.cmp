@@ -1,0 +1,72 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller = "ProductSearchController"  >
+    <aura:attribute name = "PricebookEntryId" type = "string"/>
+    <aura:attribute name = "PlantId" type = "string"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="allUOMs" type="Map" />
+    <aura:attribute name="availableUOMs" type="List" />
+    <aura:attribute name="selectedUOM" type="string" />
+    <aura:attribute name="showSearchResults" type="Boolean" default = "false"/>
+    <aura:attribute name="availability" type="string"/>
+    <aura:attribute name="availableQuantity" type="string"/>
+    <aura:attribute name="productCode" type="string"/>
+    <aura:attribute name="imagePath" type="string"/>
+    <aura:attribute name="pbError" type="boolean" default = "false"/> 
+    <aura:attribute name="plantError" type="boolean" default = "false"/>
+    <aura:attribute name="showSpinner" type="boolean" default = "false"/> 
+    <aura:attribute name="isDisabled" type="boolean" default = "true"/> 
+    <aura:handler name="change" value="{!v.PricebookEntryId}" 
+                  action="{!c.fetchUoMs}"/>
+    <aura:handler name="onblur" event="l_lookup:OnBlur" action="{!c.handleBlur}" />
+    
+    <aura:handler name="onchange" 
+                  event="l_lookup:OnChange" 
+                  action="{!c.handleChange}"/>
+    
+    
+    <div class="slds-size_2-of-3">
+        <l_lookup:Lookup aura:id="product" objectType="PricebookEntry" additionalField = 'Product_Description__c'
+                         selectedRecordId="{!v.PricebookEntryId}" showFiveRecent = 'true' 
+                         label = 'Product' pluralLabel = 'Products'  isRequired = 'true'/>
+        <aura:if isTrue="{!v.pbError}">
+            <c:ErrorMessage message = "Please select a product"/>
+        </aura:if>
+        <lightning:select aura:id="UOM" name="UOMPicklist" label="UOM" value = "{!v.selectedUOM}" required = 'true'>
+            <aura:iteration items="{!v.availableUOMs}" var="optionMap">
+                <option value="{!optionMap.value}" text="{!optionMap.label}" selected = "{!optionMap.selected}" />
+            </aura:iteration>
+        </lightning:select>
+        <div/>
+        <l_lookup:Lookup aura:id="plant" objectType="Device_Plant__c" additionalField = 'PlantName__c'
+                         selectedRecordId="{!v.PlantId}"  isRequired = 'true' dropDownQuery = "IsActive__c = true" dropDownLimit="100" />
+        <aura:if isTrue="{!v.plantError}">
+            <c:ErrorMessage message = "Please select a plant"/>
+        </aura:if>
+        <div/>
+        
+        <lightning:button variant="brand" label="Search" onclick="{!c.SearchButtonClick}" class="slds-m-top_medium" 
+                          disabled = "{!v.isDisabled}"/>
+    </div>
+    <br/>
+    <div/>
+    
+    
+    <aura:if isTrue="{!v.showSearchResults}">
+        
+        <div  aura:id = "searchCard">
+            
+            <c:ProductSearchCard availability = "{!v.availability}" quantity = "{!v.availableQuantity}" productCode = "{!v.productCode}"
+                                 imagePath = "{!v.imagePath}"/>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showSpinner }">
+        <div class="spinner">    
+            
+            <lightning:spinner alternativeText="Loading" />
+        </div>
+    </aura:if>
+    
+    
+    <br/>
+    
+    
+</aura:component>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <description>Assigns the record variable to the collection</description>
+        <name>ASS_Record_Variable_To_Collection</name>
+        <label>Assign Record Variable To Collection</label>
+        <locationX>138</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>CVAR_Work_Order_Line_Item_Create</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>RVAR_Work_Order_Line_Item</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns variables to tge record variable</description>
+        <name>ASS_Variables</name>
+        <label>Assign Variables</label>
+        <locationX>138</locationX>
+        <locationY>695</locationY>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.WorkOrderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.WorkOrder.ParentWorkOrderId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.After_Hours_Reason__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.After_Hours_Reason__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.Labour_Rate__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.Labour_Rate__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.Quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.Quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.UnitPrice</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.UnitPrice</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.Type__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item.PricebookEntryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.PricebookEntryId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ASS_Record_Variable_To_Collection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Confirms Quotation record type</description>
+        <name>DEC_Is_Quote</name>
+        <label>Is Quote?</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Is_Quote</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Quotation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CVAR_Work_Order_Line_Items</targetReference>
+            </connector>
+            <label>Is Quote</label>
+        </rules>
+    </decisions>
+    <description>Copies work order line items from cild work order toparent work order when a quote is accepted</description>
+    <interviewLabel>Work Order: Copy Child Work Order Line Items To Parent {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Copy Child Work Order Line Items To Parent</label>
+    <loops>
+        <description>Loops through the collection of work order line item records</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <collectionReference>CVAR_Work_Order_Line_Items</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ASS_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>RC_Work_Order_Line_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates work order line items on the parent work order</description>
+        <name>RC_Work_Order_Line_Items</name>
+        <label>Create Work Order Line Items</label>
+        <locationX>50</locationX>
+        <locationY>1031</locationY>
+        <inputReference>CVAR_Work_Order_Line_Item_Create</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <description>Gets work order line items</description>
+        <name>CVAR_Work_Order_Line_Items</name>
+        <label>Get Work Order Line Items</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WorkOrderId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>WorkOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DEC_Is_Quote</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Quotation Accepted</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ParentWorkOrderId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>0WO</stringValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <description>Work order line item collection of records to create</description>
+        <name>CVAR_Work_Order_Line_Item_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <description>Work order line item record variable</description>
+        <name>RVAR_Work_Order_Line_Item</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+</Flow>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>sapSalesOrderDetailsCase_7</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__ComponentDefinition__c</field>
+        <value xsi:type="xsd:string">sapSalesOrderDetailsCase</value>
+    </values>
+    <values>
+        <field>overcast__Order__c</field>
+        <value xsi:type="xsd:double">7.0</value>
+    </values>
+    <values>
+        <field>overcast__SectionDefinition__c</field>
+        <value xsi:type="xsd:string">{&quot;structureType&quot;:&quot;STRUCTURE&quot;,&quot;sectionType&quot;:&quot;PANEL&quot;,&quot;parameterName&quot;:&quot;ORDER_CONDITIONS&quot;,&quot;label&quot;:&quot;ORDER_CONDITIONS&quot;,&quot;isEditable&quot;:true,&quot;fields&quot;:[{&quot;scale&quot;:9,&quot;precision&quot;:29,&quot;name&quot;:&quot;ZFMH&quot;,&quot;label&quot;:&quot;Freight Manual Head&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;BOTH&quot;,&quot;detailDisplay&quot;:true,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:9,&quot;precision&quot;:29,&quot;name&quot;:&quot;ZFHM&quot;,&quot;label&quot;:&quot;Industry Material Freight&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;BOTH&quot;,&quot;detailDisplay&quot;:true,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:9,&quot;precision&quot;:29,&quot;name&quot;:&quot;HB00&quot;,&quot;label&quot;:&quot;Discount&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:false,&quot;direction&quot;:&quot;BOTH&quot;,&quot;detailDisplay&quot;:true,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:4,&quot;precision&quot;:14,&quot;name&quot;:&quot;ZFR0 &quot;,&quot;label&quot;:&quot;DTA Freight&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:4,&quot;precision&quot;:14,&quot;name&quot;:&quot;ZQMD &quot;,&quot;label&quot;:&quot;Manual Discount %&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:4,&quot;precision&quot;:14,&quot;name&quot;:&quot;ZFRF &quot;,&quot;label&quot;:&quot;DTA Freight %100 Discount&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;scale&quot;:4,&quot;precision&quot;:14,&quot;name&quot;:&quot;ZMD$&quot;,&quot;label&quot;:&quot;Manual Discount $&quot;,&quot;isEditable&quot;:true,&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;DECIMALX&quot;},{&quot;name&quot;:&quot;CURR&quot;,&quot;length&quot;:3,&quot;label&quot;:&quot;Currency&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;required&quot;:&quot;false&quot;,&quot;disabled&quot;:&quot;false&quot;}},&quot;display&quot;:false,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;}],&quot;displayVariant&quot;:&quot;&quot;,&quot;display&quot;:false,&quot;direction&quot;:&quot;BOTH&quot;}</value>
+    </values>
+    <values>
+        <field>overcast__StructureName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

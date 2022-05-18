@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ovcSAPSalesOrderCreateZRE_6</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__ComponentDefinition__c</field>
+        <value xsi:type="xsd:string">DEL_ovcSAPSalesOrderCreateZRE</value>
+    </values>
+    <values>
+        <field>overcast__Order__c</field>
+        <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>overcast__SectionDefinition__c</field>
+        <value xsi:type="xsd:string">{&quot;variantOptions&quot;:{&quot;cols&quot;:&quot;2&quot;},&quot;structureType&quot;:&quot;STRUCTURE&quot;,&quot;structureName&quot;:&quot;HeaderNotes&quot;,&quot;sectionType&quot;:&quot;ACCORDION&quot;,&quot;parameterName&quot;:&quot;HeaderNotes&quot;,&quot;label&quot;:&quot;Header Notes&quot;,&quot;isEditable&quot;:true,&quot;fields&quot;:[{&quot;name&quot;:&quot;SalesText&quot;,&quot;length&quot;:250,&quot;label&quot;:&quot;Sales Text&quot;,&quot;isEditable&quot;:true,&quot;inputVariant&quot;:&quot;&quot;,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;rows&quot;:&quot;3&quot;,&quot;multipleRows&quot;:&quot;true&quot;,&quot;TextId&quot;:&quot;V002&quot;,&quot;disabled&quot;:&quot;false&quot;,&quot;required&quot;:&quot;false&quot;}},&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;ShippingInstructions&quot;,&quot;length&quot;:250,&quot;label&quot;:&quot;Shipping Instructions&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;TextId&quot;:&quot;0012&quot;,&quot;disabled&quot;:&quot;false&quot;,&quot;required&quot;:&quot;false&quot;,&quot;multipleRows&quot;:&quot;true&quot;,&quot;rows&quot;:&quot;3&quot;}},&quot;display&quot;:true,&quot;direction&quot;:&quot;INPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;HeaderNote1&quot;,&quot;length&quot;:60,&quot;label&quot;:&quot;Header Note 1&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;TextId&quot;:&quot;0002&quot;,&quot;disabled&quot;:&quot;false&quot;,&quot;required&quot;:&quot;false&quot;}},&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;CarrierSpecialInstructions&quot;,&quot;length&quot;:60,&quot;label&quot;:&quot;Carrier Special Instructions&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;TextId&quot;:&quot;ZSPI&quot;,&quot;disabled&quot;:&quot;false&quot;,&quot;required&quot;:&quot;false&quot;}},&quot;display&quot;:true,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;},{&quot;name&quot;:&quot;HeaderNote2&quot;,&quot;length&quot;:240,&quot;label&quot;:&quot;Header Note 2&quot;,&quot;isEditable&quot;:true,&quot;inputOptions&quot;:{&quot;componentAttributes&quot;:{&quot;TextId&quot;:&quot;0003&quot;,&quot;disabled&quot;:&quot;false&quot;,&quot;required&quot;:&quot;false&quot;}},&quot;display&quot;:false,&quot;direction&quot;:&quot;OUTPUT&quot;,&quot;descriptionSource&quot;:&quot;&quot;,&quot;apexType&quot;:&quot;STRINGX&quot;}],&quot;displayVariant&quot;:&quot;&quot;,&quot;display&quot;:false,&quot;direction&quot;:&quot;BOTH&quot;}</value>
+    </values>
+    <values>
+        <field>overcast__StructureName__c</field>
+        <value xsi:type="xsd:string">HeaderNotes</value>
+    </values>
+</CustomMetadata>

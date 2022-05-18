@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+	<lightning:card title="Preview File in Lightning Aura">
+    	<div class="slds-p-around_small">
+            <p>Click on the File below to Preview:</p>
+            <br/>
+            <lightning:fileCard fileId="0692x0000040AA9" description="Pitbull"/>
+            <br/>
+            <p>Click below to Preview: </p> <br/>
+            <lightning:pill label="Labrador" name="0692x0000040AA8" onclick="{!c.previewFile}">
+                <aura:set attribute="media">
+                    <lightning:icon iconName="utility:file"  alternativeText="Labrador Image"/>
+                </aura:set>
+            </lightning:pill>
+        </div>
+    </lightning:card>
+</aura:component>

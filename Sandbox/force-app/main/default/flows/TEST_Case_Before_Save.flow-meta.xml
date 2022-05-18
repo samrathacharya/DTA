@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <decisions>
+        <name>DEC_Is_New</name>
+        <label>Is New</label>
+        <locationX>576</locationX>
+        <locationY>332</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Is_New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FOR_Is_New</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>DEC_Origin</targetReference>
+            </connector>
+            <label>Is New</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>DEC_Origin</name>
+        <label>Origin</label>
+        <locationX>383</locationX>
+        <locationY>331</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Phone_Email</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Phone</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Case</targetReference>
+            </connector>
+            <label>Phone / Email</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <name>FOR_Case_Search</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Account.Name}
+&amp; &quot;;&quot;
+&amp; {!$Record.Account.Customer_Number__c}
+&amp; &quot;;&quot;
+&amp; {!$Record.Contact.Full_Name__c}
+&amp; &quot;;&quot;
+&amp; {!$Record.Asset.SerialNumber}</expression>
+    </formulas>
+    <formulas>
+        <name>FOR_Description</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Record.Description}, 255)</expression>
+    </formulas>
+    <formulas>
+        <name>FOR_Is_New</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>TEST: Case: Before Save {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Case: Before Save</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>RU_Case</name>
+        <label>Update Case</label>
+        <locationX>393</locationX>
+        <locationY>496</locationY>
+        <inputAssignments>
+            <field>Case_Search__c</field>
+            <value>
+                <elementReference>FOR_Case_Search</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description_Custom__c</field>
+            <value>
+                <elementReference>FOR_Description</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>DEC_Is_New</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

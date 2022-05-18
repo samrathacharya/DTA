@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>AU Biomedex EQ</name>
+    <queueMembers>
+        <users>
+            <user>alex.youroukelis@ingenuity.com.au.crm</user>
+            <user>award@device.com.au.crm</user>
+        </users>
+    </queueMembers>
+    <queueRoutingConfig>External_Routing</queueRoutingConfig>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

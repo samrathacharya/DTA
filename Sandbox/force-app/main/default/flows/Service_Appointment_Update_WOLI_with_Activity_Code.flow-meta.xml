@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <description>Assigns record variables to collection</description>
+        <name>ASS_Records_To_Collection</name>
+        <label>Assign Records To Collection</label>
+        <locationX>138</locationX>
+        <locationY>935</locationY>
+        <assignmentItems>
+            <assignToReference>CVAR_Work_Order_Line_Item_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>RVAR_Work_Order_Line_Item_Update</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns service resource&apos;s default activity code</description>
+        <name>ASS_Variables</name>
+        <label>Assign Variables</label>
+        <locationX>138</locationX>
+        <locationY>815</locationY>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item_Update.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LOOP_Through_Collection.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RVAR_Work_Order_Line_Item_Update.Activity_Code__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FOR_Activity_Code</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ASS_Records_To_Collection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Check to see if the assigned resource has changed</description>
+        <name>DEC_Service_Resource_Is_Changed</name>
+        <label>Service Resource Is Changed</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Service_Resource_Is_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.FSSK__FSK_Assigned_Service_Resource__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ParentRecordId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>0WO</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RVAR_Service_Resource</targetReference>
+            </connector>
+            <label>Service Resource Is Changed</label>
+        </rules>
+    </decisions>
+    <description>Updates activity code on related work order&apos;s line items when assigned service resource is changed</description>
+    <formulas>
+        <description>Derive the activity code from the service resource default activity code</description>
+        <name>FOR_Activity_Code</name>
+        <dataType>String</dataType>
+        <expression>LEFT(TEXT({!RVAR_Service_Resource.Default_Activity_Code__c}), 6)</expression>
+    </formulas>
+    <interviewLabel>Service Appointment: Update WOLI with Activity Code {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Service Appointment: Update WOLI with Activity Code</label>
+    <loops>
+        <description>Loop through the collection of work order line item records</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>50</locationX>
+        <locationY>695</locationY>
+        <collectionReference>CVAR_Work_Order_Line_Items</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ASS_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>RU_Work_Order_Line_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Fetch line items for related work order and place in a collection</description>
+        <name>CVAR_Work_Order_Line_Items</name>
+        <label>Get Work Order Line Items</label>
+        <locationX>50</locationX>
+        <locationY>575</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WorkOrderId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ParentRecordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>WorkOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Get the service resource record</description>
+        <name>RVAR_Service_Resource</name>
+        <label>Get Service Resource</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CVAR_Work_Order_Line_Items</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FSSK__FSK_Assigned_Service_Resource__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ServiceResource</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates work order line item records from collection</description>
+        <name>RU_Work_Order_Line_Items</name>
+        <label>Update Work Order Line Items</label>
+        <locationX>50</locationX>
+        <locationY>1151</locationY>
+        <inputReference>CVAR_Work_Order_Line_Item_Update</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DEC_Service_Resource_Is_Changed</targetReference>
+        </connector>
+        <object>ServiceAppointment</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Collection of work order line item records to update</description>
+        <name>CVAR_Work_Order_Line_Item_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <description>Record variable for work order line item</description>
+        <name>RVAR_Work_Order_Line_Item_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>WorkOrderLineItem</objectType>
+    </variables>
+</Flow>

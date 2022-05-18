@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ShipToPartySearchWithAddress</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:false,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;&quot;,&quot;label&quot;:&quot;&quot;,&quot;isActive&quot;:true,&quot;componentOptions&quot;:{&quot;filterBehavior&quot;:&quot;fixed&quot;},&quot;autoRun&quot;:true}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-03-22T08:04:25.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:type="xsd:string">ShipToPartySearchWithAddressPlugin</value>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">xNydwhj2A2iKVQvlZSUXYlpRpSrqFjivuiniW2mn1JvNpipsjuwa08lB664BQQh1qs1jXwpeky5+5i9n8mM3tlT0jx5K1tsTSfSaaYhtOXCObCA5cgWbekJj0Q1ntYzD5TqUO9YBEw9oheN0GHmtxQ==</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">CustomerMasterPartner</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

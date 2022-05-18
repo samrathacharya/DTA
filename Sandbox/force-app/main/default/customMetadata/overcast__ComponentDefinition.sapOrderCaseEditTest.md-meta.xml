@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>SAP Sales Order Case Edit Test</label>
+    <protected>false</protected>
+    <values>
+        <field>overcast__Active__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ComponentDescriptor__c</field>
+        <value xsi:type="xsd:string">{&quot;showRefreshButton&quot;:true,&quot;showInNavigation&quot;:false,&quot;sections&quot;:[],&quot;navigationLabelType&quot;:&quot;&quot;,&quot;masterActionLink&quot;:{&quot;name&quot;:&quot;btn1154950152&quot;,&quot;label&quot;:&quot;Change&quot;,&quot;action&quot;:{&quot;componentOptions&quot;:{&quot;detailComponentDef&quot;:&quot;sapSalesOrderDetailsForEdit&quot;,&quot;mode&quot;:&quot;Edit&quot;},&quot;componentDef&quot;:&quot;sapOrderCaseEditTest&quot;,&quot;component&quot;:&quot;SalesOrderPoster&quot;}},&quot;label&quot;:&quot;Edit Sales Order&quot;,&quot;isActive&quot;:true,&quot;icon&quot;:&quot;&quot;,&quot;dynamicLabelOptions&quot;:{&quot;template&quot;:&quot;Edit {0} {1}&quot;,&quot;parameters&quot;:[&quot;FIELD:ORDER_HEADERS_OUT.DOC_TYPE&quot;,&quot;TRIMFIELD:ORDER_HEADERS_OUT.DOC_NUMBER&quot;]},&quot;componentOptions&quot;:{&quot;detailMapping&quot;:&quot;{\&quot;ovc_CONDITIONS:ZFR0\&quot; : \&quot;ORDER_CONDITIONS:ZFR0\&quot;,\&quot;ovc_CONDITIONS:ZQMD\&quot; : \&quot;ORDER_CONDITIONS:ZQMD\&quot;,\&quot;ovc_CONDITIONS:ZFRF\&quot; : \&quot;ORDER_CONDITIONS:ZFRF\&quot;,\&quot;ovc_CONDITIONS:ZMD$\&quot; : \&quot;ORDER_CONDITIONS:ZMD$\&quot;}&quot;},&quot;autoRun&quot;:true}</value>
+    </values>
+    <values>
+        <field>overcast__ComponentID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__CreatedDate__c</field>
+        <value xsi:type="xsd:dateTime">2022-01-21T07:16:46.000Z</value>
+    </values>
+    <values>
+        <field>overcast__Hidden__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>overcast__ID__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__Permissions__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__PluginClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>overcast__RequiredLicenses__c</field>
+        <value xsi:type="xsd:string">NixvzVgroOW/HWY37tYSBKxO5r47pGQnDSXpwyoqqpx8LuS7obdnR7zCUV7g35tYwKLXclXYcQa9KY0Ki/0yfxT7XoIjliSQLOWbz3JfBT66jiWaSiJhC7zCbCv3t5w5</value>
+    </values>
+    <values>
+        <field>overcast__ScenarioName__c</field>
+        <value xsi:type="xsd:string">sapSalesOrderChange</value>
+    </values>
+    <values>
+        <field>overcast__isSLPRequired__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>

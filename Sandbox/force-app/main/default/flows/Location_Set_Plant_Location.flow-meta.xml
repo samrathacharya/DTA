@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <formulas>
+        <name>FOR_Plant_Storage_Location</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.ovcPlant__r.Name}
+&amp; &quot;: &quot;
+&amp; {!$Record.Name}
+&amp; &quot; (&quot;
+&amp; {!$Record.ovcPlant__r.PlantCode__c}
+&amp; &quot;/&quot;
+&amp; {!$Record.ovcStorage_Location_Code__c}
+&amp; &quot;)&quot;</expression>
+    </formulas>
+    <interviewLabel>Location: Set {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Location: Set Plant/Location</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>RU_Location</name>
+        <label>Update Location</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <inputAssignments>
+            <field>Plant_Storage_Location__c</field>
+            <value>
+                <elementReference>FOR_Plant_Storage_Location</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RU_Location</targetReference>
+        </connector>
+        <object>Location</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

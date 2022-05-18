@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if the update is a valid one</description>
+        <name>DEC_Valid_Change</name>
+        <label>Valid Change?</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.WorkOrderLineItem.WorkOrder.StatusCategory</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkOrderLineItem.WorkOrder.StatusCategory</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.WorkOrderLineItem.WorkOrder.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Technically Complete</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RU_Work_Order_Line_Item</targetReference>
+            </connector>
+            <label>Valid</label>
+        </rules>
+    </decisions>
+    <description>Updates work order line item if quantity consumed is changed</description>
+    <interviewLabel>Product Consumed: Update Work Order Line Item {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Product Consumed: Update Work Order Line Item</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update work order line item</description>
+        <name>RU_Work_Order_Line_Item</name>
+        <label>Update Work Order Line Item</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.WorkOrderLineItemId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Quantity</field>
+            <value>
+                <elementReference>$Record.QuantityConsumed</elementReference>
+            </value>
+        </inputAssignments>
+        <object>WorkOrderLineItem</object>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>DEC_Valid_Change</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WorkOrderLineItemId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>1WL</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>QuantityConsumed</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>ProductConsumed</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

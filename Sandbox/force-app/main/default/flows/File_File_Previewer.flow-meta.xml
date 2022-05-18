@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <description>Shows a preview of a file</description>
+    <interviewLabel>File; File Previewer {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>File: File Previewer</label>
+    <loops>
+        <description>Loop through the collection</description>
+        <name>LOOP_Through_Collection</name>
+        <label>Loop Through Collection</label>
+        <locationX>176</locationX>
+        <locationY>278</locationY>
+        <collectionReference>CVAR_Content_Version</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>SC_Preview</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Find files associated with the record &amp; places them in a collection variable</description>
+        <name>CVAR_Content_Version</name>
+        <label>Get Content Version</label>
+        <locationX>176</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FirstPublishLocationId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ContentVersion</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <description>Display file preview.
+
+Uses two Lightning components:
+- Flow Header
+- FilePreviewComponent</description>
+        <name>SC_Preview</name>
+        <label>Preview</label>
+        <locationX>264</locationX>
+        <locationY>398</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>LOOP_Through_Collection</targetReference>
+        </connector>
+        <fields>
+            <name>LC_Flow_Header</name>
+            <extensionName>dhfpi:lwcFlowHeader</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>heading</name>
+                <value>
+                    <stringValue>File Preview</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>iconSize</name>
+                <value>
+                    <stringValue>small</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>icon</name>
+                <value>
+                    <stringValue>standard:file</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>SC_Preview_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SC_Preview_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>LC_File_Preview_Component</name>
+            <extensionName>c:FilePreviewComponent</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>fileId</name>
+                <value>
+                    <elementReference>LOOP_Through_Collection.ContentDocumentId</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CVAR_Content_Version</targetReference>
+        </connector>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <description>Variable used to store record Id</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

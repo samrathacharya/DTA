@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if there are any temporary fault cause records to delete</description>
+        <name>DEC_Has_Records</name>
+        <label>Has Records?</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Has_Records</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CVAR_Temporary_Fault_Cause_Records</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Temporary_Fault_Cause_Records</targetReference>
+            </connector>
+            <label>Has Records</label>
+        </rules>
+    </decisions>
+    <description>Deletes related temporary fault cause code records if the work order is deleted</description>
+    <interviewLabel>Work Order: Delete Temporary Fault Cause Recors On Work Order Deletion {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Delete Temporary Fault Cause Records On Work Order Deletion</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>RD_Temporary_Fault_Cause_Records</name>
+        <label>Delete Temporary Fault Cause Records</label>
+        <locationX>50</locationX>
+        <locationY>551</locationY>
+        <inputReference>CVAR_Temporary_Fault_Cause_Records</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <description>Fetch all related temporary fault cause records and place in a collection</description>
+        <name>CVAR_Temporary_Fault_Cause_Records</name>
+        <label>Get Temporary Fault Cause Records</label>
+        <locationX>182</locationX>
+        <locationY>311</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Has_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Work_Order_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Temporary_Fault_And_Cause_Code__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CVAR_Temporary_Fault_Cause_Records</targetReference>
+        </connector>
+        <object>WorkOrder</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

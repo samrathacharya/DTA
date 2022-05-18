@@ -1,0 +1,8 @@
+<design:component>
+    <design:attribute name="recordId" label="ID of record from which component is run" required="true" />
+    <design:attribute name="mode" label="Mode to use for Sales Order Poster" datasource="Create,Clone" />
+    <design:attribute name="componentName" label="Sales Order Poster component definition name" required="true" />
+    <design:attribute name="slpParamsJSON" label="JSON string with slp parameters for Sales Order Poster" />
+    <design:attribute name="detailComponentName" label="Detail component name to use in the case of Clone mode" />
+    <design:attribute name="slpParamsDetailJSON" label="JSON string with slp parameters for detail component" />
+</design:component>

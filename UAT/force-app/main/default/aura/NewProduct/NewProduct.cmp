@@ -1,0 +1,53 @@
+<aura:component controller="NewProductController"
+                implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+                access="global" >
+
+    <aura:attribute name="opportunity" type="Opportunity" />
+    <aura:attribute name="newOLI" type="OpportunityLineItem"
+        default="{ 'sobjectType': 'OpportunityLineItem' }" /> <!-- default to empty record -->
+
+    <aura:attribute name="newDummyOLI" type="OpportunityLineItem"
+        default="{ 'sobjectType': 'OpportunityLineItem' }" /> <!-- default to empty record -->
+
+    <aura:attribute name="allUOMs" type="Map" />
+    
+    <aura:attribute name="availableUOMs" type="List" />
+    
+    <aura:attribute name="errorMessageStr" type="String" default="" />
+    
+    <aura:attribute name="selectedRecordId" type="String" default="" />
+    
+    <aura:handler name="change" value="{!v.newDummyOLI.PricebookEntryId}" 
+                  action="{!c.fetchUoMs}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- Display the new oli form -->
+    <aura:if isTrue="{!v.errorMessageStr != ''}">
+        <div id="errorDiv" name="errorDiv" style="margin: 10px 0px; padding: 12px; width: 100%; border: 1px solid #000000; background-color: #FFD2D2; color: #D8000C;">
+            {!v.errorMessageStr}    
+        </div>
+    </aura:if>
+    
+    <l_lookup:Lookup aura:id="oliField" objectType="PricebookEntry" 
+                     selectedRecordId="{!v.newDummyOLI.PricebookEntryId}">
+    </l_lookup:Lookup>
+    
+    <lightning:input aura:id="oliField" name="quantity" label="Quantity"
+                     value="{!v.newOLI.Quantity}" required="true"/>
+    
+    <lightning:select aura:id="UOMPicklist" name="UOMPicklist" label="UOM"
+                      value="{!v.newOLI.UOM__c}">
+        <option value="">-None-</option>
+        <aura:iteration items="{!v.availableUOMs}" var="optionMap">
+            <option value="{!optionMap.value}" text="{!optionMap.label}" />
+        </aura:iteration>
+    </lightning:select>
+    
+    <lightning:input aura:id="oliField" name="salesPrice" label="Sales Price"
+                     value="{!v.newOLI.UnitPrice}" />
+    
+    <lightning:button label="Update &amp; Save" onclick="{!c.updateAndSaveOLI}"
+                      variant="brand" class="slds-m-top_medium"/>
+    
+</aura:component>

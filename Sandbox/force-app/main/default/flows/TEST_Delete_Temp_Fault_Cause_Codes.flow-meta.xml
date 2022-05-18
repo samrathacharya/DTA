@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <interviewLabel>TEST: Delete Temp Fault Cause Codes {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Delete Temp Fault Cause Codes</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordDeletes>
+        <name>Delete_Temporary_Fault_Cause_Codes</name>
+        <label>Delete Temporary Fault Cause Codes</label>
+        <locationX>179</locationX>
+        <locationY>347</locationY>
+        <inputReference>CVAR_Temporary_Fault_Cause_Codes</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <name>CVAR_Temporary_Fault_Cause_Codes</name>
+        <label>Get Temporary Fault Cause Codes</label>
+        <locationX>176</locationX>
+        <locationY>186</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Delete_Temporary_Fault_Cause_Codes</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Temporary_Fault_And_Cause_Code__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>CVAR_Temporary_Fault_Cause_Codes</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+</Flow>

@@ -1,0 +1,4 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+	<aura:attribute name="componentDefName" type="string" default="ovcSalesOrderSearch" access="global" />
+    <overcast:ocfComponentHost componentDefName="{!v.componentDefName}" recordId="{!$SObjectType.CurrentUser.Id}" />
+</aura:component>

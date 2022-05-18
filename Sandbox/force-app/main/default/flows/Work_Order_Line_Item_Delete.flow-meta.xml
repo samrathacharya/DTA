@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <decisions>
+        <description>Check to see if line item work order category matches work order category</description>
+        <name>DEC_Category_Match</name>
+        <label>Category Match?</label>
+        <locationX>182</locationX>
+        <locationY>278</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Not_Matched</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Work_Order_Line_Item.WorkOrder.Work_Order_Category__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>RVAR_Work_Order_Line_Item.Work_Type_Category__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>RD_Work_Order_Line_Item</targetReference>
+            </connector>
+            <label>Not Matched</label>
+        </rules>
+    </decisions>
+    <description>Deletes unncessary work order line items from a quotation work order</description>
+    <interviewLabel>Work Order Line {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order Line Item: Delete</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <description>Deletes unnecessary work order line item records from quotation work order</description>
+        <name>RD_Work_Order_Line_Item</name>
+        <label>Delete Work Order Line Item</label>
+        <locationX>50</locationX>
+        <locationY>398</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>WorkOrderLineItem</object>
+    </recordDeletes>
+    <recordLookups>
+        <description>Get the work Order Line Item record</description>
+        <name>RVAR_Work_Order_Line_Item</name>
+        <label>Get Work Order Line Item</label>
+        <locationX>182</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Category_Match</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>WorkOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RVAR_Work_Order_Line_Item</targetReference>
+        </connector>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <description>Work order line item&apos;s record Id</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

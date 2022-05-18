@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>Assigns the Technical Service Record Type Id</description>
+        <name>ASS_Record_Type_Id</name>
+        <label>Assign Record Type Id</label>
+        <locationX>50</locationX>
+        <locationY>551</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Case_Record_Type_Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record__Prior.RecordTypeId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RU_Case</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns the Customer Service Record Type Id</description>
+        <name>ASS_Record_Type_Id_CS</name>
+        <label>Assign Record Type Id</label>
+        <locationX>578</locationX>
+        <locationY>671</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Case_Record_Type_Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Case_Setting_Custom_Metadata_Type_CS.Customer_Service_Record_Type_Id__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RU_Case</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigns the Technical Service Record Type Id</description>
+        <name>ASS_Record_Type_Id_TS</name>
+        <label>Assign Record Type Id</label>
+        <locationX>314</locationX>
+        <locationY>671</locationY>
+        <assignmentItems>
+            <assignToReference>VAR_Case_Record_Type_Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Case_Setting_Custom_Metadata_Type_TS.Technical_Service_Record_Type_Id__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>RU_Case</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Determine which record type to assign to the record</description>
+        <name>DEC_Record_Type</name>
+        <label>Record Type?</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>Get_Case_Setting_Custom_Metadata_Type_CS</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Customer Service</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Data_Team</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Case_Setting_Custom_Metadata_Type.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Data_Team</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ASS_Record_Type_Id</targetReference>
+            </connector>
+            <label>Data Team</label>
+        </rules>
+        <rules>
+            <name>OUT_Technical_Service</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RVAR_Case_Setting_Custom_Metadata_Type.Technical_Service__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RVAR_Case_Setting_Custom_Metadata_Type.DeveloperName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Data_Team</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Case_Setting_Custom_Metadata_Type_TS</targetReference>
+            </connector>
+            <label>Technical Service</label>
+        </rules>
+    </decisions>
+    <description>Assigns a record type to the case depenedent upon the queue the case has been assigned to</description>
+    <interviewLabel>TEST: Case Record Type Assignment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TEST: Case Record Type Assignment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Fetch the Case Setting custom metadata type</description>
+        <name>Get_Case_Setting_Custom_Metadata_Type_CS</name>
+        <label>Get Case Setting Custom Metadata Type</label>
+        <locationX>578</locationX>
+        <locationY>551</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ASS_Record_Type_Id_CS</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Customer_Service_Record_Type_Id__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Fetch the Case Setting custom metadata type</description>
+        <name>Get_Case_Setting_Custom_Metadata_Type_TS</name>
+        <label>Get Case Setting Custom Metadata Type</label>
+        <locationX>314</locationX>
+        <locationY>551</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ASS_Record_Type_Id_TS</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Technical_Service_Record_Type_Id__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Fetch the Case Setting custom metadata type</description>
+        <name>RVAR_Case_Setting_Custom_Metadata_Type</name>
+        <label>Get Case Setting Custom Metadata Type</label>
+        <locationX>314</locationX>
+        <locationY>311</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>DEC_Record_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Queue_ID__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Owner:Group.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case_Setting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update&apos;s the Case record type</description>
+        <name>RU_Case</name>
+        <label>Update Case</label>
+        <locationX>314</locationX>
+        <locationY>887</locationY>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>VAR_Case_Record_Type_Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>RVAR_Case_Setting_Custom_Metadata_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OwnerId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>00G</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <description>Stores the assigned Case Record Type Id</description>
+        <name>VAR_Case_Record_Type_Id</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

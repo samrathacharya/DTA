@@ -1,0 +1,32 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+                controller="FastOpportunityController"
+                access="global">
+
+    <aura:attribute name="opportunity" type="Opportunity"></aura:attribute>
+    <aura:attribute name="pricebooks" type="Pricebook2[]"></aura:attribute>
+    <aura:attribute name="pricebookEntries" type="PricebookEntry[]"></aura:attribute>
+    <aura:attribute name="pricebookId" type="string"></aura:attribute>
+    <aura:attribute name="editMode" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="itemsCount" type="integer" default="0"/>    
+
+    <aura:handler event="c:RefreshLineItems" action="{!c.handleRefreshLineItems}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!--
+    <lightning:button title="Back" variant="brand" label="Back" onclick="{!c.backToOpportunity}"></lightning:button>
+    -->
+    
+    <div class="slds-media__body">
+        <h2 class="slds-card__header-title">
+            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Opportunity Products (3)">
+                <span>Products ({!v.itemsCount})</span>
+            </a>
+        </h2>
+    </div>
+
+    <div class="forceRelatedListPreview">
+        <c:OpportunityLineItems items="{!v.opportunity.OpportunityLineItems}" entries="{!v.pricebookEntries}"
+                                recordId="{!v.recordId}" renderWidth="SMALL" hasEditMode='true'></c:OpportunityLineItems>
+    </div>
+</aura:component>

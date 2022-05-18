@@ -1,0 +1,6 @@
+<design:component label="Custom Invoice Detail for Return Orders" >
+<design:supportedFormFactors>
+<design:supportedFormFactor type="Large" />
+<design:supportedFormFactor type="Small" />
+</design:supportedFormFactors>
+</design:component>

@@ -1,0 +1,12 @@
+<design:component>
+    <design:attribute
+        name="componentDefName"
+        label="Overcast Component Definition"
+        description="Overcast Component Definition"
+        datasource="apex://overcast.ComponentDefPicklist"
+    />
+    <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+        <design:supportedFormFactor type="Small"/>
+    </design:supportedFormFactors>
+</design:component>

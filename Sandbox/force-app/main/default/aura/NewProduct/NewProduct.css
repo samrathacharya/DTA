@@ -1,0 +1,8 @@
+.THIS #errorDiv, .THIS .errorDiv {
+    margin: 10px 0px;
+    padding: 12px;
+    width: 100%;
+    border: 1px solid #000000;
+    background-color: #FFD2D2;
+    color: #D8000C;
+}

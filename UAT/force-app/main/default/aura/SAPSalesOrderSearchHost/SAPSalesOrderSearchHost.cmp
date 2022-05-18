@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,lightning:availableForFlowScreens" access="global" >
+	<aura:attribute name="activeSections" type="List" default="[]" />
+    <aura:attribute name="componentDefName" type="string" access="global" />
+    <aura:attribute name="accordionLabel" type="string" access="global" />
+    <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! v.activeSections }" >
+        <lightning:accordionSection label="{!v.accordionLabel}">
+    		<overcast:ocfComponentHost componentDefName="{!v.componentDefName}" recordId="{!$SObjectType.CurrentUser.Id}" />
+        </lightning:accordionSection>    
+    </lightning:accordion>
+</aura:component>

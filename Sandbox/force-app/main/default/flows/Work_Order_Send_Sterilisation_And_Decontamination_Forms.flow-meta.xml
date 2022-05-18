@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Send outbound message to Conga</description>
+        <name>OM_Conga_Email_Sterlisation_Form</name>
+        <label>Outbound Message: Conga: Email Sterilisation Form</label>
+        <locationX>585</locationX>
+        <locationY>398</locationY>
+        <actionName>WorkOrder.Conga_Email_Sterilisation_Form</actionName>
+        <actionType>outboundMessage</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+    </actionCalls>
+    <apiVersion>53.0</apiVersion>
+    <interviewLabel>Work Order: Send Sterilisation And Decontamination Forms {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Work Order: Send Sterilisation And Decontamination Forms</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>OM_Conga_Email_Sterlisation_Form</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Awaiting Customer Equipment</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ContactId</field>
+            <operator>StartsWith</operator>
+            <value>
+                <stringValue>003</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ovcInbound_Delivery_Number__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ovcInbound_Delivery_Number__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>WorkOrder</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,2 @@
+<aura:event type="APPLICATION" description="Refreshing opportunity line items">
+</aura:event>

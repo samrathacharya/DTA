@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="availability" type="string"></aura:attribute>
+    <aura:attribute name="quantity" type="string"></aura:attribute>
+    <aura:attribute name="productCode" type="string"></aura:attribute>
+    <aura:attribute name = "imagePath" type = "string"/>
+     <lightning:card variant="Narrow" title="{!v.productCode}"  iconName="standard:product" >
+        <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner">
+                <dl class="slds-list_horizontal slds-wrap">
+                    <dt class="slds-item_label slds-text-color_weak  slds-size_2-of-3 " title="Availability">Availability:</dt>
+                    <dd class="slds-item_detail slds-truncate" title="{!v.availability}"><span class ="slds-avatar slds-avatar_circle slds-avatar--x-small">  
+                        <img  class = "height" src="{!v.imagePath}"/></span></dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate slds-size_2-of-3 " title="Quantity">Quantity:</dt>
+                    <dd class="slds-item_detail slds-truncate" title="Available Quantity">{!v.quantity}</dd>
+                </dl>
+                
+            </div> 
+            
+            
+        </article>
+    </lightning:card>
+</aura:component>

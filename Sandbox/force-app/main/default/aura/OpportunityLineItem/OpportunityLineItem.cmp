@@ -1,0 +1,85 @@
+<!--
+ - Created by cxu on 7/02/2017.
+ -->
+
+<aura:component description="OpportunityLineItem"
+                controller="NewProductController">
+    
+    <aura:attribute name="item" type="OpportunityLineItem"></aura:attribute>
+    <aura:attribute name="entries" type="PricebookEntry[]"></aura:attribute>
+    <aura:attribute name="editMode" type="boolean"></aura:attribute>
+    <aura:attribute name="hasEditMode" type="boolean"></aura:attribute>
+    <aura:attribute name="renderWidth" type="String"></aura:attribute>
+    
+    <aura:attribute name="allUOMs" type="Map"></aura:attribute>
+    <aura:attribute name="availableUOMs" type="List"></aura:attribute>
+
+    <aura:registerEvent name="RemoveLineItem" type="c:RemoveLineItem"/>
+
+    <aura:registerEvent name="RefreshLineItems" type="c:RefreshLineItems"/>
+    
+<!-- edit mode -->
+<aura:if isTrue="{!v.editMode}">
+      <article class="slds-tile slds-tile_board">
+          <div class="slds-list_horizontal displayInline slds-clearfix">
+            <aura:if isTrue="{!v.editMode}">
+                  <lightning:icon iconName="action:remove" onclick="{!c.unsetEditMode}"
+                                  size="xx-small" iconPosition="right"
+                                  class="slds-float_right"/>
+                  <lightning:icon iconName="action:approval" onclick="{!c.saveOLI}"
+                                  size="x-small" iconPosition="right"
+                                  class="slds-float_right" style="margin-right: 1rem;"/>
+            </aura:if>
+              <h3 class="slds-tile__title slds-truncate" title="{!v.item.Name}"><a href="javascript:void(0);">{!v.item.PricebookEntry.Product2.Name}</a></h3>
+          </div>
+
+        <div class="slds-tile__detail">
+          <p class="slds-truncate">
+              <lightning:input aura:id="oliField" name="quantity" label="Quantity"
+                     value="{!v.item.Quantity}" required="true"/>  
+          </p>
+          <p class="slds-truncate" title="UOM">
+            <lightning:select aura:id="UOMPicklist" name="UOMPicklist" label="UOM" value="{!v.item.UOM__c}">
+                <aura:iteration items="{!v.availableUOMs}" var="optionMap">
+                    <option value="{!optionMap.value}" text="{!optionMap.label}" 
+                            selected="{!optionMap.value==v.item.UOM__c}">
+                    </option>
+                </aura:iteration>
+            </lightning:select>
+          </p>
+        </div>
+      </article>
+</aura:if>
+
+    
+  <!-- view mode -->    
+<aura:if isTrue="{!v.editMode != true}">
+      <article class="slds-tile slds-tile_board">
+          <div class="slds-list_horizontal displayInline slds-clearfix">
+            <aura:if isTrue="{!v.hasEditMode}">
+                
+                  <lightning:icon iconName="action:delete" onclick="{!c.removeItem}"
+                                  size="x-small" iconPosition="right"
+                                  class="slds-float_right"/>
+				
+                  <lightning:icon iconName="action:edit" onclick="{!c.setEditMode}"
+                                  size="xx-small" iconPosition="right"
+                                  class="slds-float_right" style="margin-right: 1rem;"/>
+            </aura:if>
+              <h3 class="slds-tile__title slds-truncate" title="{!v.item.Name}"><a href="javascript:void(0);">{!v.item.PricebookEntry.Product2.Name}</a></h3>
+          </div>
+        <div class="slds-tile__detail">
+            <dl class="slds-list_horizontal slds-wrap">
+                <dt class="slds-item_label slds-truncate" title="Quantity">Quantity:</dt>
+                <dd class="slds-item_detail slds-truncate" title="Quantity">{!v.item.Quantity}</dd>
+    
+                <dt class="slds-item_label slds-truncate" title="UOM">UOM:</dt>
+                <dd class="slds-item_detail slds-truncate" title="UOM">{!v.item.UOM__c}</dd>
+    
+                <dt class="slds-item_label slds-truncate" title="Sales Price">Price:</dt>
+                <dd class="slds-item_detail slds-truncate" title="Sales Price">{!v.item.UnitPrice}</dd>
+            </dl>
+        </div>
+      </article>
+</aura:if>
+</aura:component>
